@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SearchDriverView: View {
-    @StateObject var multipeerSession = MultipeerSession()
+    @EnvironmentObject var router: NavigationRouter
+    @StateObject var multipeerSession = MultipeerSession(displayName: "me")
     @State private var selectedPeer: Peer? = nil
 
     var body: some View {
@@ -22,12 +23,17 @@ struct SearchDriverView: View {
                 title: Text("작업 요청 보낼까요?"),
                 message: Text("\(peer.displayName)"),
                 primaryButton: .destructive(Text("취소")) {
-                    print("취소 선택 - \(peer.displayName)")
+                    selectedPeer = nil
                 },
                 secondaryButton: .default(Text("승인")) {
                     multipeerSession.invite(peer)
                 }
             )
+        }
+        .onChange(of: multipeerSession.connectedPeers) { _, newValue in
+            if !newValue.isEmpty {
+                router.push(to: .signalManMain)
+            }
         }
     }
 }

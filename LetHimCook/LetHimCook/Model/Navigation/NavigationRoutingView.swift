@@ -19,11 +19,11 @@ struct NavigationRoutingView: View {
                 
             case .majorCarSelect:
                 MajorCarSelectView()
-            case .subCarSelect:
-                SubCarSelectView()
+            case .subCarSelect(let majorCar):
+                SubCarSelectView(majorCar: majorCar)
                 
-            case .waitConnection:
-                WaitConnectionView()
+            case .waitConnection(let car):
+                WaitConnectionView(car: car)
             case .record:
                 RecordView()
                 
