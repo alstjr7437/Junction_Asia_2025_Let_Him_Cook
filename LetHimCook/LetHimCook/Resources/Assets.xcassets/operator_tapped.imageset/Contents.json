@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "operator_tapped.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
