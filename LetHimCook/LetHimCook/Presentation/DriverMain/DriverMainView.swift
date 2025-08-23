@@ -9,7 +9,9 @@ import SwiftUI
 
 struct DriverMainView: View {
     var body: some View {
-        Text("Driver Main")
+        Button("hello") {
+            print("Hello")
+        }
     }
 }
 

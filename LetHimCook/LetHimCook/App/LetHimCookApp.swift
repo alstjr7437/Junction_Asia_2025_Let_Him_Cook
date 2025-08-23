@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct LetHimCookApp: App {
+    @StateObject var router: NavigationRouter = NavigationRouter()
+    
     var body: some Scene {
         WindowGroup {
-            OnboardingView()
+            NavigationStack(path: $router.destinations) {
+                OnboardingView()
+            }.environmentObject(router)
         }
     }
 }
