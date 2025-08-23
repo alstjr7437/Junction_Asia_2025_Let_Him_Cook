@@ -21,7 +21,7 @@ struct SignalManMainView: View {
             Spacer()
             stopWorking()
             
-            // 테스트용 버튼
+            // 수동 연결 재시도 버튼
             Button("연결 재시도") {
                 sendConnectedMCP()
             }
