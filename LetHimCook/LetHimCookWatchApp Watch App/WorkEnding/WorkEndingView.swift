@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WorkEndingView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         waitingConnectionView()
     }
@@ -30,7 +32,7 @@ struct WorkEndingView: View {
                 .foregroundStyle(.secondary)
             
             Button {
-                
+                dismiss()
             } label: {
                 Text("OK")
             }
