@@ -14,7 +14,9 @@ final class MultipeerSession: NSObject, ObservableObject {
     private let serviceBrowser: MCNearbyServiceBrowser
     private let session: MCSession
     private let log = Logger()
-    let myPeerId = MCPeerID(displayName: UUID().uuidString)
+    
+    
+    let myPeerId: MCPeerID
     var connectPeer: Peer? = nil
     
     @Published var foundPeers: [Peer] = []
@@ -25,20 +27,25 @@ final class MultipeerSession: NSObject, ObservableObject {
     private var pendingInvitationHandler: ((Bool, MCSession?) -> Void)?
     
     // MARK: init
-    override init() {
-        session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
-        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
-        serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: serviceType)
-        
+    init(displayName: String) {
+        // 1) myPeerId 먼저 생성
+        self.myPeerId = MCPeerID(displayName: displayName)
+
+        // 2) 나머지 의존 객체들 초기화
+        self.session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
+        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
+        self.serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: serviceType)
+
         super.init()
-        
-        session.delegate = self
-        serviceAdvertiser.delegate = self
-        serviceBrowser.delegate = self
-        
-        serviceAdvertiser.startAdvertisingPeer()
-        serviceBrowser.startBrowsingForPeers()
-        
+
+        // 3) delegate 연결 + 시작
+        self.session.delegate = self
+        self.serviceAdvertiser.delegate = self
+        self.serviceBrowser.delegate = self
+
+        self.serviceAdvertiser.startAdvertisingPeer()
+        self.serviceBrowser.startBrowsingForPeers()
+
         log.info("🔄 MultipeerSession initialized for \(self.myPeerId.displayName)")
     }
     
