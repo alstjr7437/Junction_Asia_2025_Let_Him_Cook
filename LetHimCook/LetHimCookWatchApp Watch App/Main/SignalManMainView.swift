@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  SignalManMainView.swift
 //  LetHimCookWatchApp Watch App
 //
 //  Created by 길지훈 on 8/23/25.
@@ -9,64 +9,74 @@ import SwiftUI
 
 struct SignalManMainView: View {
     @StateObject private var watchConnectivity = WatchConnectivityManager()
+    @StateObject private var coreMotion = CoreMotionManager()
     
     var body: some View {
-        if watchConnectivity.mcpConnected {
-            connectedView()
-        } else {
-            waitingConnectionView()
-        }
+        // TODO: - 실제 연결 상태에 맞게 주석을 해제하거나 수정하세요.
+        // if watchConnectivity.mcpConnected {
+        //     connectedView()
+        // } else {
+        //     waitingConnectionView()
+        // }
+        
+        // --- 테스트를 위해 항상 connectedView()를 보여주도록 임시 수정 ---
+        connectedView()
     }
-    
     
     private func waitingConnectionView() -> some View {
         VStack(spacing: 10) {
-            Text("Let Him Cook")
-                .font(.title3)
-                .bold()
-            
-            Spacer()
-            
             Image(systemName: "person.line.dotted.person.fill")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 60)
                 .foregroundStyle(.blue)
-            Text("신호수와 운전수가 연결되지 않았습니다.")
+            Text("신호수와 운전수가\n연결되지 않았습니다.")
                 .multilineTextAlignment(.center)
         }
         .padding()
     }
     
     private func connectedView() -> some View {
-        VStack(spacing: 15) {
-            Text("Let Him Cook")
-                .font(.title3)
-                .bold()
+        VStack(spacing: 12) {
+            
+            // '정지' 신호를 보내거나 취소하는 버튼
+            // AssistiveTouch는 이 버튼을 '탭'하여 제어합니다.
+            Button(action: {
+                // 버튼을 누르면 매니저의 토글 메서드를 호출합니다.
+                coreMotion.toggleStopSignal()
+            }) {
+                // coreMotion.isStopSignalActive 상태에 따라 버튼의 텍스트를 변경합니다.
+                Text(coreMotion.isStopSignalActive ? "CANCEL STOP" : "SEND STOP")
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity)
+            }
+            // 상태에 따라 버튼의 색상도 변경합니다.
+            .tint(coreMotion.isStopSignalActive ? .gray : .red)
+            .buttonStyle(.borderedProminent)
+            .accessibilityLabel(coreMotion.isStopSignalActive ? "정지 신호 취소" : "정지 신호 보내기")
             
             Spacer()
             
-            Circle()
-                .fill(Color.green)
-                .frame(width: 80, height: 80)
-                .overlay(
-                    Image(systemName: "checkmark")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                )
-            
-            Text("연결 완료!")
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundColor(.green)
-            
-            Text("신호 송신 준비됨")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            
-            Spacer()
+            // 현재 제스처 표시
+            Text(coreMotion.currentGesture.rawValue)
+                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .foregroundColor(gestureColor())
+                .padding(.top, 8)
         }
-        .padding()
+        .padding(.horizontal)
+    }
+    
+    private func gestureColor() -> Color {
+        switch coreMotion.currentGesture {
+        case .up:
+            return .blue
+        case .down:
+            return .orange
+        case .stop:
+            return .red
+        case .none:
+            return .secondary
+        }
     }
 }
 
