@@ -9,12 +9,14 @@ import MultipeerConnectivity
 import os
 
 final class MultipeerSession: NSObject, ObservableObject {
-    private let serviceType = "LetHimCook"
+    private let serviceType = "lethimcook"
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
     private let session: MCSession
     private let log = Logger()
-    let myPeerId = MCPeerID(displayName: UUID().uuidString)
+    
+    
+    let myPeerId: MCPeerID
     var connectPeer: Peer? = nil
     
     @Published var foundPeers: [Peer] = []
@@ -25,20 +27,25 @@ final class MultipeerSession: NSObject, ObservableObject {
     private var pendingInvitationHandler: ((Bool, MCSession?) -> Void)?
     
     // MARK: init
-    override init() {
-        session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
-        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
-        serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: serviceType)
-        
+    init(displayName: String) {
+        // 1) myPeerId 먼저 생성
+        self.myPeerId = MCPeerID(displayName: displayName)
+
+        // 2) 나머지 의존 객체들 초기화
+        self.session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
+        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
+        self.serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: serviceType)
+
         super.init()
-        
-        session.delegate = self
-        serviceAdvertiser.delegate = self
-        serviceBrowser.delegate = self
-        
-        serviceAdvertiser.startAdvertisingPeer()
-        serviceBrowser.startBrowsingForPeers()
-        
+
+        // 3) delegate 연결 + 시작
+        self.session.delegate = self
+        self.serviceAdvertiser.delegate = self
+        self.serviceBrowser.delegate = self
+
+        self.serviceAdvertiser.startAdvertisingPeer()
+        self.serviceBrowser.startBrowsingForPeers()
+
         log.info("🔄 MultipeerSession initialized for \(self.myPeerId.displayName)")
     }
     
@@ -59,23 +66,23 @@ final class MultipeerSession: NSObject, ObservableObject {
         log.info("✉️ send() 호출됨, 현재 연결 수: \(self.session.connectedPeers.count)")
     }
 
-    func respondToInvite(accept: Bool, address: String) {
+    func respondToInvite(accept: Bool) {
         if let handler = pendingInvitationHandler {
             log.info("🟢 초대 \(accept ? "수락" : "거절")")
             handler(accept, session)
             pendingInvitationHandler = nil
             
-            if accept {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    let data = Data(address.utf8)
-                    do {
-                        try self.session.send(data, toPeers: self.session.connectedPeers, with: .reliable)
-                        self.log.info("📤 주소 전송 완료: \(address)")
-                    } catch {
-                        self.log.error("❌ 주소 전송 실패: \(error.localizedDescription)")
-                    }
-                }
-            }
+//            if accept {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                    let data = Data(address.utf8)
+//                    do {
+//                        try self.session.send(data, toPeers: self.session.connectedPeers, with: .reliable)
+//                        self.log.info("📤 주소 전송 완료: \(address)")
+//                    } catch {
+//                        self.log.error("❌ 주소 전송 실패: \(error.localizedDescription)")
+//                    }
+//                }
+//            }
         }
     }
     
