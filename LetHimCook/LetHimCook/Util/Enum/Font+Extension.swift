@@ -48,6 +48,9 @@ extension Font {
     /// SemiBold 24/150
     static let sb6: Font = .custom("Pretendard-Semibold", size: 28) // 130%
     
+    /// SemiBold 56/150
+    static let sb7: Font = .custom("Pretendard-Semibold", size: 56) // 130%
+    
     
     // Bold
     /// Bold 14/150

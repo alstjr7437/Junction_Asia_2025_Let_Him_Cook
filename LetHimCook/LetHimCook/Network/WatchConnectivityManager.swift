@@ -76,6 +76,42 @@ final class WatchConnectivityManager: NSObject, WCSessionDelegate {
         }
     }
     
+    // --- 워치에서 메시지 수신 ---
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        handleReceivedGesture(from: message)
+    }
+    
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        handleReceivedGesture(from: applicationContext)
+    }
+    
+    private func handleReceivedGesture(from data: [String: Any]) {
+        guard let gestureString = data["gesture"] as? String else { return }
+        
+        DispatchQueue.main.async {
+            self.processGesture(gestureString)
+        }
+    }
+    
+    private func processGesture(_ gestureString: String) {
+        let gestureType: GestureOverlayManager.GestureType
+        
+        switch gestureString {
+        case "정지":
+            gestureType = .stop
+        case "위로":
+            gestureType = .boomUp
+        case "아래로":
+            gestureType = .boomDown
+        case "none":
+            gestureType = .none
+        default:
+            return // 알 수 없는 제스처는 무시
+        }
+        
+        GestureOverlayManager.shared.showGesture(gestureType)
+    }
+    
     // --- iOS 전용 델리게이트 메서드 ---
     func sessionDidBecomeInactive(_ session: WCSession) {}
     func sessionDidDeactivate(_ session: WCSession) {

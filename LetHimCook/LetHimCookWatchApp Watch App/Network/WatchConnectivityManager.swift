@@ -60,4 +60,29 @@ final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDeleg
             }
         }
     }
+    
+    /// 제스처를 iPhone으로 전송
+    func sendGesture(_ gestureType: String) {
+        let message = ["gesture": gestureType]
+        
+        if session.isReachable {
+            session.sendMessage(message, replyHandler: nil) { error in
+                // 즉시 전송 실패 시 Application Context 사용
+                self.sendGestureViaContext(gestureType)
+            }
+        } else {
+            // 워치가 즉시 연결되지 않은 경우 Application Context 사용
+            sendGestureViaContext(gestureType)
+        }
+    }
+    
+    private func sendGestureViaContext(_ gestureType: String) {
+        let context = ["gesture": gestureType, "timestamp": Date().timeIntervalSince1970] as [String : Any]
+        
+        do {
+            try session.updateApplicationContext(context)
+        } catch {
+            // 실패 시 무시
+        }
+    }
 }

@@ -7,6 +7,7 @@
 
 import CoreMotion
 import Foundation
+import WatchKit
 
 final class CoreMotionManager: ObservableObject {
     private let motionManager = CMMotionManager()
@@ -91,11 +92,19 @@ final class CoreMotionManager: ObservableObject {
         // 제스처 설정
         currentGesture = gesture
         
-        // 0.5초 후 대기 상태로 변경하는 타이머 시작
+        // iPhone으로 제스처 전송
+        WatchConnectivityManager.shared.sendGesture(gesture.rawValue)
+        
+        // 햅틱 피드백
+        playHapticFeedback(for: gesture)
+        
+        // 2초 후 대기 상태로 변경하는 타이머 시작
         gestureTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { [weak self] _ in
             DispatchQueue.main.async {
                 if self?.currentGesture == gesture {
                     self?.currentGesture = .none
+                    // none 상태도 iPhone으로 전송
+                    WatchConnectivityManager.shared.sendGesture("none")
                 }
             }
         }
@@ -109,11 +118,30 @@ final class CoreMotionManager: ObservableObject {
         if isStopSignalActive {
             // '정지' 신호가 활성화되면
             currentGesture = .stop
+            WatchConnectivityManager.shared.sendGesture("정지")
+            playHapticFeedback(for: .stop)
             print("Stop signal sent!")
         } else {
             // '정지' 신호가 비활성화(취소)되면
             currentGesture = .none
+            WatchConnectivityManager.shared.sendGesture("none")
             print("Stop signal canceled!")
         }
+    }
+    
+    /// 제스처에 따른 햅틱 피드백 재생
+    private func playHapticFeedback(for gesture: GestureType) {
+        let hapticType: WKHapticType
+        
+        switch gesture {
+        case .stop:
+            hapticType = .failure // 정지는 강한 진동
+        case .up, .down:
+            hapticType = .success // 위/아래는 부드러운 진동
+        case .none:
+            return // none은 햅틱 없음
+        }
+        
+        WKInterfaceDevice.current().play(hapticType)
     }
 }
