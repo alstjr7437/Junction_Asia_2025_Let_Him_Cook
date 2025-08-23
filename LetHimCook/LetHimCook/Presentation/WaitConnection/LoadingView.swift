@@ -8,7 +8,15 @@
 import SwiftUI
 
 struct WaitConnectionView: View {
+    
     let car: Car
+
+    @StateObject var multipeerSession: MultipeerSession
+    
+    init(car: Car) {
+        self.car = car
+        _multipeerSession = StateObject(wrappedValue: .init(displayName: car.name))
+    }
     
     var body: some View {
         Text(car.name)

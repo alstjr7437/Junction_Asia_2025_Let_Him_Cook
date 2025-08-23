@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchDriverView: View {
-    @StateObject var multipeerSession = MultipeerSession()
+    @StateObject var multipeerSession = MultipeerSession(displayName: "me")
     @State private var selectedPeer: Peer? = nil
 
     var body: some View {
