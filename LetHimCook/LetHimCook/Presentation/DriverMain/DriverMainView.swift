@@ -21,7 +21,7 @@ struct DriverMainView: View {
                     .position(center)
 
                 if let nbi = multipeer.nbiManager {
-                    NBIOverlay(center: center, nbi: nbi)   // ← 서브뷰로 분리
+                    NBIOverlay(center: center, nbi: nbi)
                 } else {
                     Text("UWB 준비 중…")
                         .font(.subheadline)
@@ -39,23 +39,24 @@ private struct NBIOverlay: View {
     let center: CGPoint
     @ObservedObject var nbi: NearbyInteractionManager
 
-    @State private var lastAzimuth: Double? = nil   // 🔸 azimuth 캐시
+    @State private var lastAzimuth: Double? = nil
 
     private let minRadius: CGFloat = 20
     private let maxRadius: CGFloat = 140
-    private let distanceScale: CGFloat = 90
+    private let distanceScale: CGFloat = 45
 
     var body: some View {
         // azimuth가 nil이면 마지막 유효값 사용, 없으면 0
         let az = (nbi.azimuth ?? lastAzimuth) ?? 0
         let dist = nbi.distance ?? .infinity
+        let shownDist = dist.quantizedForDisplay
 
         // 캐시 갱신
         if let currentAz = nbi.azimuth { lastAzimuth = currentAz }
 
-        // 거리 → 반경(px)
-        let clampedMeters = max(0.0, min(dist, 2.0))
-        let rawRadius = CGFloat(clampedMeters) * distanceScale
+        // 거리(표시 단위와 동일한 양자화) → 반경(px)
+        let quantizedMeters = max(0.0, shownDist)
+        let rawRadius = CGFloat(quantizedMeters) * distanceScale
         let radius = max(minRadius, min(rawRadius, maxRadius))
 
         // 화면 좌표(Driver 기기 전방=0, 오른쪽 +)
@@ -67,7 +68,6 @@ private struct NBIOverlay: View {
         let dirLabel = sectorLabel(from: az)
 
         return Group {
-            // 상대 원
             Circle()
                 .fill(Color.green.opacity(0.25))
                 .frame(width: 72, height: 72)
@@ -76,7 +76,7 @@ private struct NBIOverlay: View {
                         Text(dirLabel) // ← "앞/오른쪽/뒤…" 등
                             .font(.subheadline)
                         if nbi.distance != nil {
-                            Text(String(format: "%.2f m", dist.isFinite ? dist : 0))
+                            Text(shownDist.displayString)
                                 .font(.caption).foregroundStyle(.secondary)
                         } else {
                             Text("측정 중…").font(.caption).foregroundStyle(.secondary)
@@ -84,23 +84,9 @@ private struct NBIOverlay: View {
                     }
                 )
                 .position(target)
-
-            // 방향선
-            Path { p in
-                p.move(to: center)
-                p.addLine(to: target)
-            }
-            .stroke(.secondary.opacity(0.4), lineWidth: 2)
-
-            // (옵션) 중앙에 화살표: 상대 각도에 맞춰 회전
-            Image(systemName: "arrow.up")
-                .font(.title2)
-                .rotationEffect(.radians(az)) // 전방=위쪽
-                .position(center)
-                .foregroundStyle(.secondary)
         }
         .animation(.easeOut(duration: 0.12), value: az)
-        .animation(.easeOut(duration: 0.12), value: dist)
+        .animation(.easeOut(duration: 0.12), value: shownDist)
     }
 
     /// Driver 기기 기준 8방위 라벨
@@ -125,4 +111,18 @@ private struct NBIOverlay: View {
 
 #Preview {
     DriverMainView(multipeer: MultipeerSession(displayName: "Preview"))
+}
+
+private extension Double {
+    /// 항상 1m 단위로 표시
+    var displayString: String {
+        if !self.isFinite { return "0 m" }
+        return String(format: "%.0f m", self.rounded())
+    }
+
+    /// 항상 1m 단위로 반경 계산
+    var quantizedForDisplay: Double {
+        guard self.isFinite else { return 0 }
+        return self.rounded()
+    }
 }

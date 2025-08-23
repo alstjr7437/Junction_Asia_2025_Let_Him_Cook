@@ -132,7 +132,7 @@ extension NearbyInteractionManager: NISessionDelegate {
             elD = el
         }
 
-        Logger().info("📈 didUpdate distance=\(String(describing: distD)), dir=\(obj.direction.map { "\($0.x),\($0.y),\($0.z)" } ?? "nil")")
+//        Logger().info("📈 didUpdate distance=\(String(describing: distD)), dir=\(obj.direction.map { "\($0.x),\($0.y),\($0.z)" } ?? "nil")")
 
         DispatchQueue.main.async {
             self.distance  = distD
