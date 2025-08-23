@@ -35,7 +35,7 @@ struct SubCarSelectView: View {
         .scrollContentBackground(.hidden)
         .padding(.top, 10)
         .alert(
-            "Are you sure you want to select \(selectedCar?.name ?? "No Car")",
+            "Are you sure you want to select \(selectedCar?.model ?? "No Car")",
             isPresented: $alert
         ) {
             Button("Cancel", role: .cancel) {

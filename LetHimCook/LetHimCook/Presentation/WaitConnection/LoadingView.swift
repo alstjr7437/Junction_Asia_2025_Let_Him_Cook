@@ -18,7 +18,7 @@ struct WaitConnectionView: View {
     
     init(car: Car) {
         self.car = car
-        _multipeerSession = StateObject(wrappedValue: .init(displayName: car.name))
+        _multipeerSession = StateObject(wrappedValue: .init(displayName: car.model))
     }
     
     var body: some View {
@@ -29,7 +29,7 @@ struct WaitConnectionView: View {
                 Image(.operator)
                     .resizable()
                     .frame(width: 110, height: 68)
-                Text(car.name)
+                Text(\(car.name)-\(car.model))
                     .font(Font.t1)
             }
             Spacer()
