@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct SubCarSelectView: View {
+    let majorCar: MajorCar
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text(majorCar.displayName)
     }
 }
 
 #Preview {
-    SubCarSelectView()
+    SubCarSelectView(majorCar: .crane)
 }
