@@ -14,7 +14,7 @@ final class CoreMotionManager: ObservableObject {
     
     // @Published: 이 값들이 바뀌면 SwiftUI 뷰가 자동으로 업데이트됩니다.
     @Published var currentGesture: GestureType = .none
-    @Published var accelerationData: String = "대기중..."
+    @Published var accelerationData: String = "Waiting..."
     
     /// '정지' 신호가 현재 활성화되었는지 여부를 추적하는 상태 변수입니다.
     @Published var isStopSignalActive: Bool = false
@@ -23,10 +23,10 @@ final class CoreMotionManager: ObservableObject {
     private var gestureTimer: Timer?
     
     enum GestureType: String, CaseIterable {
-        case none = "대기"
-        case up = "위로"
-        case down = "아래로"
-        case stop = "정지"
+        case none = "stay"
+        case up = "Boom Up"
+        case down = "Boom Down"
+        case stop = "Stop"
     }
     
     init() {

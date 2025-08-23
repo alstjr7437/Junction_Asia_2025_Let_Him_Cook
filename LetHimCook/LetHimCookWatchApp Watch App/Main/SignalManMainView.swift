@@ -28,7 +28,7 @@ struct SignalManMainView: View {
         VStack(spacing: 15) {
             ProgressView() // 로딩 인디케이터 (스피너)
                 .progressViewStyle(CircularProgressViewStyle())
-            Text("연결 상태 확인 중...")
+            Text("checking Connection...")
         }
     }
     
@@ -39,7 +39,7 @@ struct SignalManMainView: View {
                 .scaledToFit()
                 .frame(width: 60)
                 .foregroundStyle(.blue)
-            Text("신호수와 운전수가\n연결되지 않았습니다.")
+            Text("The signalman and operator are not connected.")
                 .multilineTextAlignment(.center)
         }
         .padding()
