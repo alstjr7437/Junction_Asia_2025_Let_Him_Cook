@@ -13,10 +13,16 @@ struct SearchDriverView: View {
     @State private var selectedPeer: Peer? = nil
 
     var body: some View {
-        VStack {
+        VStack(spacing: 28) {
             PeerView(peers: multipeerSession.foundPeers) { peer in
                 selectedPeer = peer
             }
+            VStack(spacing: 12) {
+                Image(.loading)
+                Text("Looking for a device to connect to")
+                    .font(Font.h4)
+            }
+            Spacer()
         }
         .alert(item: $selectedPeer) { peer in
             Alert(

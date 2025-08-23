@@ -208,7 +208,7 @@ private struct CenterCircle: View {
 }
 
 // MARK: - Reusable concentric rings (background safety rings)
-private struct ConcentricRings: View {
+struct ConcentricRings: View {
     let center: CGPoint
     let radii: [CGFloat]
     let theme: Theme
