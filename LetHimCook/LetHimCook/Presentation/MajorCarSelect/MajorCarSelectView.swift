@@ -17,10 +17,6 @@ struct MajorCarSelectView: View {
     ]
 
     var body: some View {
-        
-        Text("Operator")
-            .font(.sb2)
-        
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(MajorCar.allCases, id: \.self) { major in
@@ -30,6 +26,7 @@ struct MajorCarSelectView: View {
             .padding(.top, 30)
             .padding(16)
         }
+        .navigationTitle("Operator")
     }
 
     @ViewBuilder
