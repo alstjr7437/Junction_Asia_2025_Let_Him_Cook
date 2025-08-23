@@ -11,6 +11,7 @@ struct SignalManMainView: View {
     @State private var elapsedTime: TimeInterval = 0
     @State private var timer: Timer?
     @State private var startTime: Date = Date()
+    @State private var showExitAlert = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -26,6 +27,14 @@ struct SignalManMainView: View {
         }
         .onDisappear {
             stopTimer()
+        }
+        .alert("작업을 완료하시겠습니까?", isPresented: $showExitAlert) {
+            Button("계속 작업", role: .cancel) { }
+            Button("작업 완료", role: .destructive) {
+                stopTimer()
+            }
+        } message: {
+            Text("현재 작업을 마치고 기록을 저장합니다.")
         }
     }
     
@@ -58,7 +67,7 @@ struct SignalManMainView: View {
     /// 작업 종료 버튼
     private func stopWorking() -> some View {
         Button(action: {
-            stopTimer()
+            showExitAlert = true
         }) {
             Text("작업 종료")
                 .font(.system(size: 70, weight: .bold, design: .rounded))
