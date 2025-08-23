@@ -95,7 +95,7 @@ private struct NBIOverlay: View {
                                 .font(.caption)
                                 .foregroundStyle(isAlert ? Color.white.opacity(0.9) : .secondary)
                         } else {
-                            Text("측정 중…")
+                            Text("Measuring...")
                                 .font(.caption)
                                 .foregroundStyle(isAlert ? Color.white.opacity(0.9) : .secondary)
                         }

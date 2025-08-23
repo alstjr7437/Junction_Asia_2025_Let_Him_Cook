@@ -28,13 +28,13 @@ struct SignalManMainView: View {
         .onDisappear {
             stopTimer()
         }
-        .alert("작업을 완료하시겠습니까?", isPresented: $showExitAlert) {
-            Button("계속 작업", role: .cancel) { }
-            Button("작업 완료", role: .destructive) {
+        .alert("Do you wish to end task?", isPresented: $showExitAlert) {
+            Button("Resume", role: .cancel) { }
+            Button("End", role: .destructive) {
                 stopTimer()
             }
         } message: {
-            Text("현재 작업을 마치고 기록을 저장합니다.")
+            Text("This action will record task data.")
         }
     }
     
@@ -69,7 +69,7 @@ struct SignalManMainView: View {
         Button(action: {
             showExitAlert = true
         }) {
-            Text("작업 종료")
+            Text("Stop Work")
                 .font(Font.t1)
                 .foregroundColor(.white)
                 .frame(height: 71)

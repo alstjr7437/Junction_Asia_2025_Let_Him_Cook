@@ -21,7 +21,7 @@ struct SubCarSelectView: View {
     }
 
     var body: some View {
-        List(cars, id: \.name) { car in
+        List(cars, id: \.id) { car in
             CarRow(car: car)
                 .contentShape(Rectangle())
                 .onTapGesture {
