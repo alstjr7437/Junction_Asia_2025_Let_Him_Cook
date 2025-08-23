@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct LetHimCookApp: App {
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    
     @StateObject var router: NavigationRouter = NavigationRouter()
     
     var body: some Scene {
