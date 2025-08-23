@@ -1,6 +1,6 @@
 //
 //  WatchConnectivityManager.swift
-//  LetHimCookWatchApp Watch App
+//  LetHimCookWatchApp (Watch)
 //
 //  Created by 길지훈 on 8/23/25.
 //
@@ -8,33 +8,55 @@
 import WatchConnectivity
 import Foundation
 
-final class WatchConnectivityManager: NSObject, ObservableObject {
-    @Published var mcpConnected: Bool = false
-    
-    override init() {
-        super.init()
-        
-        if WCSession.isSupported() {
-            WCSession.default.delegate = self
-            WCSession.default.activate()
-        }
-    }
-}
+// ❗️이 파일은 Watch App 프로젝트 타겟에만 포함되어야 합니다.
 
-extension WatchConnectivityManager: WCSessionDelegate {
+// ❌ final class WatchConnectivityManager: ObservableObject
+// ✅ NSObject를 상속받도록 수정해야 합니다.
+final class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
+    static let shared = WatchConnectivityManager()
+    
+    enum ConnectionState {
+        case loading
+        case connected
+        case disconnected
+    }
+    
+    @Published var connectionState: ConnectionState = .loading
+    
+    private let session: WCSession
+    
+    // NSObject를 상속받았으므로, init은 override가 되어야 합니다.
+    private override init() {
+        self.session = .default
+        super.init()
+        session.delegate = self
+        session.activate()
+    }
+    
+    // ✅ 이제 이 메서드들은 WCSessionDelegate의 요구사항을 정상적으로 만족합니다.
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        if let error = error {
-            print("WC Session activation failed: \(error.localizedDescription)")
-        } else {
-            print("WC Session activated successfully")
+        if activationState == .activated {
+            print("✅ Watch WC Session activated successfully.")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                if self.connectionState == .loading {
+                    self.connectionState = .disconnected
+                }
+            }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        DispatchQueue.main.async {
-            if let connected = message["mcpConnected"] as? Bool {
-                self.mcpConnected = connected
-                print("Received MCP connection status: \(connected)")
+        handleReceivedMessage(message)
+    }
+    
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        handleReceivedMessage(applicationContext)
+    }
+    
+    private func handleReceivedMessage(_ message: [String: Any]) {
+        if let isConnected = message["mcpConnected"] as? Bool {
+            DispatchQueue.main.async {
+                self.connectionState = isConnected ? .connected : .disconnected
             }
         }
     }
