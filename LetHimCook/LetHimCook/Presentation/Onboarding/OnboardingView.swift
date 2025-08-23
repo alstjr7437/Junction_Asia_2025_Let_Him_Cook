@@ -11,10 +11,36 @@ struct OnboardingView: View {
     @EnvironmentObject var router: NavigationRouter
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        Button("hello") {
-            router.push(to: .driverMain)
+        VStack {
+            Button {
+                router.push(to: .majorCarSelect)
+            } label: {
+                Text("운전자")
+                    .frame(width: 300, height: 125)
+                    .padding()
+                    .background(Color.gray.opacity(0.3))
+                    .cornerRadius(8)
+            }
+            
+            Button {
+                router.push(to: .searchDriver)
+            } label: {
+                Text("신호수")
+                    .frame(width: 300, height: 125)
+                    .padding()
+                    .background(Color.gray.opacity(0.3))
+                    .cornerRadius(8)
+                
+            }
         }
+        .padding()
+        .navigationBarItems(trailing:
+            Button{
+                router.push(to: .record)
+            } label:{
+                Text("log")
+            }
+        )
     }
 }
 
