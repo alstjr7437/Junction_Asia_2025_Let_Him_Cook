@@ -1,0 +1,37 @@
+//
+//  NavigationView.swift
+//  LetHimCook
+//
+//  Created by 김민석 on 8/23/25.
+//
+
+import SwiftUI
+
+struct NavigationRoutingView: View {
+    
+    @State var destination: NavigationDestination
+    
+    var body: some View {
+        Group {
+            switch destination {
+            case .searchDriver:
+                SearchDriverView()
+                
+            case .majorCarSelect:
+                MajorCarSelectView()
+            case .subCarSelect:
+                SubCarSelectView()
+                
+            case .waitConnection:
+                WaitConnectionView()
+            case .record:
+                RecordView()
+                
+            case .signalManMain:
+                SignalManMainView()
+            case .driverMain:
+                DriverMainView()
+            }
+        }
+    }
+}
