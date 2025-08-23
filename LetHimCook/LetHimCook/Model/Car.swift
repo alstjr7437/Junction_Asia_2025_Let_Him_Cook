@@ -5,7 +5,7 @@
 //  Created by 김민석 on 8/23/25.
 //
 
-struct Car {
+struct Car: Equatable, Hashable {
     let major: MajorCar
     let name: String
     let model: String

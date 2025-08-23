@@ -14,7 +14,7 @@ enum NavigationDestination: Hashable {
     case subCarSelect(majorCar: MajorCar)
     
     // 로딩
-    case waitConnection
+    case waitConnection(car: Car)
     case record
     
     // 메인
