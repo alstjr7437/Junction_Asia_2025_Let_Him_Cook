@@ -39,6 +39,16 @@
 		EE0C14102E59845D003640C0 /* LetHimCook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetHimCook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EE0C15442E5A390F003640C0 /* Exceptions for "LetHimCook" folder in "LetHimCook" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/Info.plist,
+			);
+			target = EE0C140F2E59845D003640C0 /* LetHimCook */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4C1252C42E59FEB700164418 /* LetHimCookWatchApp Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -47,6 +57,9 @@
 		};
 		EE0C14612E59E0ED003640C0 /* LetHimCook */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				EE0C15442E5A390F003640C0 /* Exceptions for "LetHimCook" folder in "LetHimCook" target */,
+			);
 			path = LetHimCook;
 			sourceTree = "<group>";
 		};
@@ -407,6 +420,8 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LetHimCook/App/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "근처 기기와 연결하기 위해 로컬 네트워크를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -441,6 +456,8 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LetHimCook/App/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "근처 기기와 연결하기 위해 로컬 네트워크를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
