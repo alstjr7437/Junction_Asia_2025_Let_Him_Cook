@@ -11,38 +11,51 @@ struct DummyData {
     }()
     
     static let cars: [Car] = [
-        // 크레인
-        Car(major: .crane, name: "현대 크레인 A", model: "HX-250", width: 250, height: 600),
-        Car(major: .crane, name: "크레인 B", model: "HX-260", width: 260, height: 610),
-        Car(major: .crane, name: "크레인 C", model: "HX-270", width: 270, height: 620),
-        Car(major: .crane, name: "크레인 D", model: "HX-280", width: 280, height: 630),
-        Car(major: .crane, name: "크레인 E", model: "HX-290", width: 290, height: 640),
-        Car(major: .crane, name: "크레인 F", model: "HX-300", width: 300, height: 650),
+        // Crane
+        Car(major: .crane, name: "Crawler Crane", model: "LR 1500", width: 9100, length: 14500),
+        Car(major: .crane, name: "Crawler Crane", model: "LR 1700-1.0", width: 10700, length: 16292),
+        Car(major: .crane, name: "Crawler Crane", model: "LR 1800-1.0", width: 11000, length: 17910),
+        Car(major: .crane, name: "Crawler Crane", model: "LR 11000", width: 11200, length: 18530),
+        Car(major: .crane, name: "Crawler Crane", model: "LR 11350", width: 13000, length: 20429),
+        Car(major: .crane, name: "Crawler Crane", model: "LR 12500-1.0", width: 14900, length: 26425),
+        Car(major: .crane, name: "Crawler Crane", model: "LR 13000", width: 16400, length: 27190),
+        Car(major: .crane, name: "Truck Crane", model: "LTF 1045-4.1", width: 2550, length: 13379),
+        Car(major: .crane, name: "Truck Crane", model: "LTF 1060-4.1", width: 2550, length: 11350),
+        Car(major: .crane, name: "Hyundai Crane A", model: "HX-250", width: 250, length: 600),
+        Car(major: .crane, name: "Crane B", model: "HX-260", width: 260, length: 610),
+        Car(major: .crane, name: "Crane C", model: "HX-270", width: 270, length: 620),
+        Car(major: .crane, name: "Crane D", model: "HX-280", width: 280, length: 630),
+        Car(major: .crane, name: "Crane E", model: "HX-290", width: 290, length: 640),
+        Car(major: .crane, name: "Crane F", model: "HX-300", width: 300, length: 650),
         
-        // 타워 크레인
-        Car(major: .towerCrane, name: "삼성 타워 크레인 A", model: "TC-400", width: 400, height: 1500),
-        Car(major: .towerCrane, name: "타워 크레인 B", model: "TC-410", width: 410, height: 1510),
-        Car(major: .towerCrane, name: "타워 크레인 C", model: "TC-420", width: 420, height: 1520),
-        Car(major: .towerCrane, name: "타워 크레인 D", model: "TC-430", width: 430, height: 1530),
-        Car(major: .towerCrane, name: "타워 크레인 E", model: "TC-440", width: 440, height: 1540),
-        Car(major: .towerCrane, name: "타워 크레인 F", model: "TC-450", width: 450, height: 1550),
+        // Tower Crane
+        Car(major: .towerCrane, name: "Mobile Tower Crane", model: "MK 73-3.1", width: 2750, length: 13809),
+        Car(major: .towerCrane, name: "Mobile Tower Crane", model: "MK 88-4.1", width: 2750, length: 15942),
+        Car(major: .towerCrane, name: "Mobile Tower Crane", model: "MK 120-5.1", width: 3000, length: 15970),
+        Car(major: .towerCrane, name: "Mobile Tower Crane", model: "MK 140-5.1", width: 3000, length: 15970),
+        Car(major: .towerCrane, name: "Samsung Tower Crane A", model: "TC-400", width: 400, length: 1500),
+        Car(major: .towerCrane, name: "Tower Crane B", model: "TC-410", width: 410, length: 1510),
+        Car(major: .towerCrane, name: "Tower Crane C", model: "TC-420", width: 420, length: 1520),
+        Car(major: .towerCrane, name: "Tower Crane D", model: "TC-430", width: 430, length: 1530),
+        Car(major: .towerCrane, name: "Tower Crane E", model: "TC-440", width: 440, length: 1540),
+        Car(major: .towerCrane, name: "Tower Crane F", model: "TC-450", width: 450, length: 1550),
         
-        // 지게차
-        Car(major: .forklift, name: "두산 지게차 C", model: "DF-120", width: 120, height: 220),
+        // Forklift
+        Car(major: .forklift, name: "Doosan Forklift C", model: "DF-120", width: 120, length: 220),
         
-        // 덤프트럭
-        Car(major: .dumpTruck, name: "볼보 덤프트럭 D", model: "VD-300", width: 300, height: 800),
+        // Dump Truck
+        Car(major: .dumpTruck, name: "Volvo Dump Truck D", model: "VD-300", width: 300, length: 800),
         
-        // 콘크리트 믹서트럭
-        Car(major: .concreteMixerTruck, name: "현대 콘크리트 믹서트럭 E", model: "HM-280", width: 280, height: 700),
+        // Concrete Mixer Truck
+        Car(major: .concreteMixerTruck, name: "Hyundai Concrete Mixer Truck E", model: "HM-280", width: 280, length: 700),
         
-        // 불도저
-        Car(major: .bulldozer, name: "CAT 불도저 F", model: "CAT-320", width: 320, height: 600),
+        // Bulldozer
+        Car(major: .bulldozer, name: "CAT Bulldozer F", model: "CAT-320", width: 320, length: 600),
         
-        // 굴삭기
-        Car(major: .excavator, name: "두산 굴삭기 G", model: "DX-310", width: 310, height: 650),
+        // Excavator
+        Car(major: .excavator, name: "Doosan Excavator G", model: "DX-310", width: 310, length: 650),
         
-        // 스크레이퍼
-        Car(major: .scraper, name: "Volvo 스크레이퍼 H", model: "VS-400", width: 400, height: 900)
+        // Scraper
+        Car(major: .scraper, name: "Volvo Scraper H", model: "VS-400", width: 400, length: 900)
     ]
 }

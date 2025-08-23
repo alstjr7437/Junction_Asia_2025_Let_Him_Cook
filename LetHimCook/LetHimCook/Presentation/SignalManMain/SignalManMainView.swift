@@ -15,9 +15,9 @@ struct SignalManMainView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            workingTimer()
             Spacer()
             usingAppleWatchText()
+            workingTimer()
             Spacer()
             stopWorking()
             
@@ -36,40 +36,40 @@ struct SignalManMainView: View {
         .onDisappear {
             stopTimer()
         }
-        .alert("작업을 완료하시겠습니까?", isPresented: $showExitAlert) {
-            Button("계속 작업", role: .cancel) { }
-            Button("작업 완료", role: .destructive) {
+        .alert("Do you wish to end task?", isPresented: $showExitAlert) {
+            Button("Resume", role: .cancel) { }
+            Button("End", role: .destructive) {
                 stopTimer()
             }
         } message: {
-            Text("현재 작업을 마치고 기록을 저장합니다.")
+            Text("This action will record task data.")
         }
     }
     
     /// 시간 표시
     private func workingTimer() -> some View {
         Text(timeString(from: elapsedTime))
-            .font(.system(size: 90, weight: .bold, design: .monospaced))
+            .font(.custom("Pretendard-SemiBold", size: 56))
             .padding(.top, 40)
     }
     
     /// 애플워치 사용 표시
     private func usingAppleWatchText() -> some View {
         VStack(spacing: 20) {
-            Image(systemName: "lock.open.applewatch")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 70)
-                .foregroundStyle(.secondary)
+            Image(systemName: "applewatch.radiowaves.left.and.right")
+                .font(.system(size: 72))
+                .foregroundColor(.primaryApp)
             
-            Text("휴대폰을 주머니에 넣고")
-                .font(.largeTitle)
-                .foregroundColor(.secondary)
-            
-            Text("애플워치를 확인해주세요")
-                .font(.largeTitle)
-                .foregroundColor(.secondary)
+            Text("Pocket your phone and check your Apple Watch")
+                .font(Font.t1)
+                .padding(.horizontal, 50)
+                .multilineTextAlignment(.center)
         }
+        .frame(height: 305)
+        .frame(maxWidth: .infinity)
+        .background(Color.netural100)
+        .cornerRadius(20)
+        .padding()
     }
     
     /// 작업 종료 버튼
@@ -77,14 +77,15 @@ struct SignalManMainView: View {
         Button(action: {
             showExitAlert = true
         }) {
-            Text("작업 종료")
-                .font(.system(size: 70, weight: .bold, design: .rounded))
+            Text("Stop Work")
+                .font(Font.t1)
                 .foregroundColor(.white)
+                .frame(height: 71)
                 .frame(maxWidth: .infinity)
-                .background(Color.blue)
+                .background(.primaryApp)
+                .cornerRadius(15)
         }
-        .padding(.horizontal, 60)
-        .padding(.vertical, 15)
+        .padding()
     }
     
     

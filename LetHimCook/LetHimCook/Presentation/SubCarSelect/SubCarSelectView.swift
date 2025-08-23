@@ -10,6 +10,8 @@ import SwiftUI
 struct SubCarSelectView: View {
     
     let majorCar: MajorCar
+    @State private var alert: Bool = false
+    @State private var selectedCar: Car?
     
     @EnvironmentObject var router: NavigationRouter
     
@@ -19,15 +21,35 @@ struct SubCarSelectView: View {
     }
 
     var body: some View {
-        List(cars, id: \.name) { car in
+        List(cars, id: \.id) { car in
             CarRow(car: car)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    router.push(to: .waitConnection(car: car))
+                    alert = true
+                    selectedCar = car
                 }
         }
         .navigationTitle(majorCar.displayName)
-        .listStyle(.insetGrouped)
+        .listStyle(.plain)
+        .background(Color.white)
+        .scrollContentBackground(.hidden)
+        .padding(.top, 10)
+        .alert(
+            "Are you sure you want to select \(selectedCar?.model ?? "No Car")",
+            isPresented: $alert
+        ) {
+            Button("Cancel", role: .cancel) {
+                alert = false
+                selectedCar = nil
+            }
+            Button("OK", role: .destructive) {
+                if let car = selectedCar {
+                    router.push(to: .waitConnection(car: car))
+                }
+            }
+        } message: {
+            Text("This equipment will be connected.")
+        }
     }
 }
 
@@ -37,10 +59,10 @@ private struct CarRow: View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(car.name)
-                    .font(.headline)
+                    .font(.h3)
                 Text(car.model)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .font(.h4)
+                    .foregroundColor(.netural500)
             }
             Spacer()
         }

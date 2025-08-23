@@ -5,12 +5,15 @@
 //  Created by 김민석 on 8/23/25.
 //
 
+import Foundation
+
 struct Car: Equatable, Hashable {
+    let id: UUID = UUID()
     let major: MajorCar
     let name: String
     let model: String
     let width: Int
-    let height: Int
+    let length: Int
 }
 
 enum MajorCar: String, CaseIterable {

@@ -9,23 +9,29 @@ import SwiftUI
 
 struct SearchDriverView: View {
     @EnvironmentObject var router: NavigationRouter
-    @StateObject var multipeerSession = MultipeerSession(displayName: "me")
+    @StateObject var multipeerSession = MultipeerSession(displayName: "Let Him Cook")
     @State private var selectedPeer: Peer? = nil
 
     var body: some View {
-        VStack {
+        VStack(spacing: 28) {
             PeerView(peers: multipeerSession.foundPeers) { peer in
                 selectedPeer = peer
             }
+            VStack(spacing: 12) {
+                Image(.loading)
+                Text("Looking for a device to connect to")
+                    .font(Font.h4)
+            }
+            Spacer()
         }
         .alert(item: $selectedPeer) { peer in
             Alert(
-                title: Text("작업 요청 보낼까요?"),
+                title: Text("Send a pairing request?"),
                 message: Text("\(peer.displayName)"),
-                primaryButton: .destructive(Text("취소")) {
+                primaryButton: .destructive(Text("Cancel")) {
                     selectedPeer = nil
                 },
-                secondaryButton: .default(Text("승인")) {
+                secondaryButton: .default(Text("OK")) {
                     multipeerSession.invite(peer)
                 }
             )

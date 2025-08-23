@@ -18,23 +18,27 @@ struct WaitConnectionView: View {
     
     init(car: Car) {
         self.car = car
-        _multipeerSession = StateObject(wrappedValue: .init(displayName: car.name))
+        _multipeerSession = StateObject(wrappedValue: .init(displayName: car.model))
     }
     
     var body: some View {
         VStack(spacing: 24) {
             Spacer()
             
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                .scaleEffect(2) // 크기 키우기
-            
-            Text("Waiting for signalman connection...")
-                .font(.headline)
-                .foregroundColor(.secondary)
-                .padding(.top, 8)
-            
+            VStack {
+                Image(.operator)
+                    .resizable()
+                    .frame(width: 110, height: 68)
+                Text("\(car.name)-\(car.model)")
+                    .font(Font.t1)
+            }
             Spacer()
+            
+            VStack(spacing: 12) {
+                Image(.loading)
+                Text("The Signalman is selecting equipment")
+                    .font(Font.h4)
+            }.padding(.bottom, 70)
         }
         .environmentObject(multipeerSession)
         .navigationTitle(car.name)
@@ -53,13 +57,13 @@ struct WaitConnectionView: View {
         
         .alert(isPresented: $showAlert) {
             Alert(
-                title: Text("Address Received"),
-                message: Text(multipeerSession.sendingFromPeer?.displayName ?? ""),
+                title: Text("Do you accept the connection to \(multipeerSession.sendingFromPeer?.displayName ?? "")? "),
+                message: Text("Connecting to \(car.name)"),
                 // 왼쪽 = 거절(빨간색)
-                primaryButton: .destructive(Text("Decline")) {
+                primaryButton: .destructive(Text("Cancel")) {
                     showAlert = false
                 },
-                secondaryButton: .default(Text("Accept")) {
+                secondaryButton: .default(Text("OK")) {
                     multipeerSession.respondToInvite(accept: true)
                 }
             )
