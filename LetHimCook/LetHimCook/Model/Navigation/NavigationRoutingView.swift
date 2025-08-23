@@ -29,8 +29,8 @@ struct NavigationRoutingView: View {
                 
             case .signalManMain:
                 SignalManMainView()
-            case .driverMain:
-                DriverMainView()
+            case .driverMain(let multipeer):
+                DriverMainView(multipeer: multipeer)
             }
         }
     }

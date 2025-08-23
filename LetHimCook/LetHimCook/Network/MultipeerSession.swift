@@ -6,6 +6,7 @@
 //
 
 import MultipeerConnectivity
+import NearbyInteraction
 import os
 
 final class MultipeerSession: NSObject, ObservableObject {
@@ -15,7 +16,6 @@ final class MultipeerSession: NSObject, ObservableObject {
     private let session: MCSession
     private let log = Logger()
     
-    
     let myPeerId: MCPeerID
     var connectPeer: Peer? = nil
     
@@ -24,7 +24,10 @@ final class MultipeerSession: NSObject, ObservableObject {
     @Published var sendingFromPeer: Peer?
     @Published var giverAddress: String?
     
+    @Published var nbiManager: NearbyInteractionManager?
+    
     private var pendingInvitationHandler: ((Bool, MCSession?) -> Void)?
+    private var pendingPeerDiscoveryTokenData: Data?
     
     // MARK: init
     init(displayName: String) {
@@ -71,18 +74,32 @@ final class MultipeerSession: NSObject, ObservableObject {
             log.info("🟢 초대 \(accept ? "수락" : "거절")")
             handler(accept, session)
             pendingInvitationHandler = nil
-            
-//            if accept {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                    let data = Data(address.utf8)
-//                    do {
-//                        try self.session.send(data, toPeers: self.session.connectedPeers, with: .reliable)
-//                        self.log.info("📤 주소 전송 완료: \(address)")
-//                    } catch {
-//                        self.log.error("❌ 주소 전송 실패: \(error.localizedDescription)")
-//                    }
-//                }
-//            }
+        }
+    }
+    
+    func attachNearbyInteraction() {
+        guard nbiManager == nil else { return }
+
+        let sender: (Data) -> Void = { [weak self] data in
+            guard let self else { return }
+            guard !self.session.connectedPeers.isEmpty else { return }
+            do {
+                try self.session.send(data, toPeers: self.session.connectedPeers, with: .reliable)
+                self.log.info("📤 MPC send \(data.count) bytes")
+            } catch {
+                self.log.error("❌ MPC send failed: \(error.localizedDescription)")
+            }
+        }
+
+        let manager = NearbyInteractionManager(sendData: sender)
+        self.nbiManager = manager
+        self.log.info("🔗 NearbyInteraction attached.")
+
+        // 🔹 이전에 받아둔 토큰이 있다면 즉시 넘김
+        if let tokenData = pendingPeerDiscoveryTokenData {
+            self.log.info("➡️ Flushing pending peer token (\(tokenData.count) bytes)")
+            manager.receivePeerDiscoveryToken(tokenData)
+            pendingPeerDiscoveryTokenData = nil
         }
     }
     
@@ -150,6 +167,8 @@ extension MultipeerSession: MCSessionDelegate {
             case .connected:
                 if !self.connectedPeers.contains(peerID) {
                     self.connectedPeers.append(peerID)
+                    
+                    self.attachNearbyInteraction()
                 }
             case .notConnected:
                 self.connectedPeers.removeAll { $0 == peerID }
@@ -161,14 +180,26 @@ extension MultipeerSession: MCSessionDelegate {
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         log.info("📦 데이터 수신: \(data.count) bytes from \(peerID.displayName)")
-        
-        guard let address = String(data: data, encoding: .utf8) else {
-            log.error("❌ 받은 데이터 디코딩 실패")
+
+        if let (type, payload) = NearbyInteractionManager.unwrap(data) {
+            switch type {
+            case .nbiToken:
+                if let mgr = self.nbiManager {
+                    log.info("🔑 Peer token received (live). Passing to NBI.")
+                    DispatchQueue.main.async { mgr.receivePeerDiscoveryToken(payload) }
+                } else {
+                    log.info("🧳 Peer token received before NBI attached. Buffering.")
+                    self.pendingPeerDiscoveryTokenData = payload
+                }
+            }
             return
         }
-        
-        DispatchQueue.main.async {
-            self.giverAddress = address
+
+        // 문자열 메시지 하위호환
+        if let address = String(data: data, encoding: .utf8) {
+            DispatchQueue.main.async { self.giverAddress = address }
+        } else {
+            log.error("❌ Unknown data format")
         }
     }
 
