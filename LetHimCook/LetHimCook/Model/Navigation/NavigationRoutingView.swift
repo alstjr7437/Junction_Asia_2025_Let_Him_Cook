@@ -31,6 +31,9 @@ struct NavigationRoutingView: View {
                 SignalManMainView()
             case .driverMain(let multipeer):
                 DriverMainView(multipeer: multipeer)
+                
+            case .workingEnding:
+                SignalWorkEndingView()
             }
         }
     }

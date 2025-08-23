@@ -13,21 +13,22 @@ struct SignalManMainView: View {
     @State private var startTime: Date = Date()
     @State private var showExitAlert = false
     
+    @EnvironmentObject var router: NavigationRouter
+    
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
             usingAppleWatchText()
             workingTimer()
-            Spacer()
-            stopWorking()
-            
             // 수동 연결 재시도 버튼
-            Button("연결 재시도") {
+            Button("Retry") {
                 sendConnectedMCP()
             }
             .padding()
             .background(.orange)
             .cornerRadius(8)
+            Spacer()
+            stopWorking()
         }
         .onAppear {
             startTimer()
@@ -40,6 +41,7 @@ struct SignalManMainView: View {
             Button("Resume", role: .cancel) { }
             Button("End", role: .destructive) {
                 stopTimer()
+                router.push(to: .workingEnding)
             }
         } message: {
             Text("This action will record task data.")

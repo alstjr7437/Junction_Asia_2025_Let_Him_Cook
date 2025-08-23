@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SignalWorkEndingView: View {
+    @EnvironmentObject var router: NavigationRouter
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -21,26 +23,31 @@ struct SignalWorkEndingView: View {
                 endWorkMent()
             }
             .foregroundStyle(.white)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    router.popToRootView()
+                }
+            }
         }
     }
     
     private func endWorkTitle() -> some View {
-        Text("작업이\n 종료되었습니다.")
+        Text("Task\n Complete.")
             .font(.system(size: 36, weight: .bold))
             .multilineTextAlignment(.center)
             .lineSpacing(1.4)
     }
     
     private func wholeWorkingTime() -> some View {
-        Text("총 작업 시간: 2h 30m")
-            .font(.system(size: 24, weight: .medium))
+        Text("Total hours spent: 2h 30m")
+            .font(Font.h2)
             .multilineTextAlignment(.center)
             .padding(.top, 30)
     }
     
     private func endWorkMent() -> some View {
         Text("Thank you for your Service.")
-            .font(.system(size: 28, weight: .semibold))
+            .font(Font.h1)
             .multilineTextAlignment(.center)
             .lineSpacing(1.4)
             .padding(.top, 110)
