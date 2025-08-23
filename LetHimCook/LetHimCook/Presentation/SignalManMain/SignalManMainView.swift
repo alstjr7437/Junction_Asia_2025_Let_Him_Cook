@@ -22,6 +22,7 @@ struct SignalManMainView: View {
         }
         .onAppear {
             startTimer()
+            sendConnectedMCP()
         }
         .onDisappear {
             stopTimer()
@@ -89,6 +90,11 @@ struct SignalManMainView: View {
         let minutes = Int(timeInterval) / 60
         let seconds = Int(timeInterval) % 60
         return String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    /// MCP 연결 완료 전송
+    private func sendConnectedMCP() {
+        WatchConnectivityManager.shared.sendMCPConnected(true)
     }
 }
 

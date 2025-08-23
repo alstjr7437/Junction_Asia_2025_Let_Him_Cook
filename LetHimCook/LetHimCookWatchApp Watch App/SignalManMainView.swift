@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct SignalManMainView: View {
+    @StateObject private var watchConnectivity = WatchConnectivityManager()
+    
     var body: some View {
-        waitingConnectionView()
+        if watchConnectivity.mcpConnected {
+            connectedView()
+        } else {
+            waitingConnectionView()
+        }
     }
     
     
@@ -32,6 +38,36 @@ struct SignalManMainView: View {
         .padding()
     }
     
+    private func connectedView() -> some View {
+        VStack(spacing: 15) {
+            Text("Let Him Cook")
+                .font(.title3)
+                .bold()
+            
+            Spacer()
+            
+            Circle()
+                .fill(Color.green)
+                .frame(width: 80, height: 80)
+                .overlay(
+                    Image(systemName: "checkmark")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                )
+            
+            Text("연결 완료!")
+                .font(.title3)
+                .fontWeight(.semibold)
+                .foregroundColor(.green)
+            
+            Text("신호 송신 준비됨")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            
+            Spacer()
+        }
+        .padding()
+    }
 }
 
 #Preview {
