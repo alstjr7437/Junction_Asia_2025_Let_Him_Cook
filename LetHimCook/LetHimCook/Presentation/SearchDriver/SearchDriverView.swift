@@ -22,7 +22,7 @@ struct SearchDriverView: View {
                 title: Text("작업 요청 보낼까요?"),
                 message: Text("\(peer.displayName)"),
                 primaryButton: .destructive(Text("취소")) {
-                    print("취소 선택 - \(peer.displayName)")
+                    selectedPeer = nil
                 },
                 secondaryButton: .default(Text("승인")) {
                     multipeerSession.invite(peer)

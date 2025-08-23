@@ -9,7 +9,7 @@ import MultipeerConnectivity
 import os
 
 final class MultipeerSession: NSObject, ObservableObject {
-    private let serviceType = "LetHimCook"
+    private let serviceType = "lethimcook"
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
     private let session: MCSession
@@ -66,23 +66,23 @@ final class MultipeerSession: NSObject, ObservableObject {
         log.info("✉️ send() 호출됨, 현재 연결 수: \(self.session.connectedPeers.count)")
     }
 
-    func respondToInvite(accept: Bool, address: String) {
+    func respondToInvite(accept: Bool) {
         if let handler = pendingInvitationHandler {
             log.info("🟢 초대 \(accept ? "수락" : "거절")")
             handler(accept, session)
             pendingInvitationHandler = nil
             
-            if accept {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    let data = Data(address.utf8)
-                    do {
-                        try self.session.send(data, toPeers: self.session.connectedPeers, with: .reliable)
-                        self.log.info("📤 주소 전송 완료: \(address)")
-                    } catch {
-                        self.log.error("❌ 주소 전송 실패: \(error.localizedDescription)")
-                    }
-                }
-            }
+//            if accept {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                    let data = Data(address.utf8)
+//                    do {
+//                        try self.session.send(data, toPeers: self.session.connectedPeers, with: .reliable)
+//                        self.log.info("📤 주소 전송 완료: \(address)")
+//                    } catch {
+//                        self.log.error("❌ 주소 전송 실패: \(error.localizedDescription)")
+//                    }
+//                }
+//            }
         }
     }
     
