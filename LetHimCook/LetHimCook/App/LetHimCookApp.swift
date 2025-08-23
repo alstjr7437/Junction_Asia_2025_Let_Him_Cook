@@ -15,6 +15,9 @@ struct LetHimCookApp: App {
         WindowGroup {
             NavigationStack(path: $router.destinations) {
                 OnboardingView()
+                    .navigationDestination(for: NavigationDestination.self) { destination in
+                        NavigationRoutingView(destination: destination)
+                    }
             }.environmentObject(router)
         }
     }
