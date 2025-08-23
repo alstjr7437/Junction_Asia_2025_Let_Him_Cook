@@ -15,6 +15,8 @@ extension Font {
     static let h4: Font = .custom("Pretendard-SemiBold", size: 18)
     static let h5: Font = .custom("Pretendard-Medium", size: 16)
     
+    static let t1: Font = .custom("Pretendard-SemiBold", size: 28)
+    
     // Regular
     /// Regular 14/150
     static let r1: Font = .custom("Pretendard-Regular", size: 14)      // 150%
