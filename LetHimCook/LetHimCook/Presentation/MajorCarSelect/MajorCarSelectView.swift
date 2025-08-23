@@ -17,13 +17,17 @@ struct MajorCarSelectView: View {
     ]
 
     var body: some View {
+        
+        Text("Operator")
+            .font(.sb2)
+        
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(MajorCar.allCases, id: \.self) { major in
                     selectMajorCarButton(major: major)
                 }
             }
-            .padding(.top, 60)
+            .padding(.top, 30)
             .padding(16)
         }
     }
@@ -34,10 +38,12 @@ struct MajorCarSelectView: View {
             router.push(to: .subCarSelect(majorCar: major))
         } label: {
             Text(major.displayName)
-                .font(.headline)
+                .font(.sb6)
+                .foregroundStyle(.black)
                 .frame(maxWidth: .infinity, minHeight: 150)
                 .padding(.vertical, 8)
-                .background(Color.gray.opacity(0.3), in: RoundedRectangle(cornerRadius: 10))
+                .background(Color(#colorLiteral(red: 0.9025448561, green: 0.9424672723, blue: 0.9632663131, alpha: 1)))
+                .cornerRadius(20)
         }
     }
 }
