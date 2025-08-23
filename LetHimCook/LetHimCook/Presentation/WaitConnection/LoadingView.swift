@@ -29,7 +29,7 @@ struct WaitConnectionView: View {
                 Image(.operator)
                     .resizable()
                     .frame(width: 110, height: 68)
-                Text(\(car.name)-\(car.model))
+                Text("\(car.name)-\(car.model)")
                     .font(Font.t1)
             }
             Spacer()
