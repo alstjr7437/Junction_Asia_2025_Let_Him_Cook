@@ -30,7 +30,6 @@ struct OnboardingView: View {
                     .padding()
                     .background(Color.gray.opacity(0.3))
                     .cornerRadius(8)
-                
             }
         }
         .padding()
