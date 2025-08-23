@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SearchDriverView: View {
+    @EnvironmentObject var router: NavigationRouter
     @StateObject var multipeerSession = MultipeerSession(displayName: "me")
     @State private var selectedPeer: Peer? = nil
 
@@ -28,6 +29,11 @@ struct SearchDriverView: View {
                     multipeerSession.invite(peer)
                 }
             )
+        }
+        .onChange(of: multipeerSession.connectedPeers) { _, newValue in
+            if !newValue.isEmpty {
+                router.push(to: .signalManMain)
+            }
         }
     }
 }

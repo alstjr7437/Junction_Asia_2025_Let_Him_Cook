@@ -44,6 +44,11 @@ struct WaitConnectionView: View {
                 showAlert = true
             }
         }
+        .onChange(of: multipeerSession.connectedPeers) { _, newValue in
+            if !newValue.isEmpty {
+                router.push(to: .driverMain)
+            }
+        }
         
         .alert(isPresented: $showAlert) {
             Alert(
@@ -57,12 +62,6 @@ struct WaitConnectionView: View {
                     multipeerSession.respondToInvite(accept: true)
                 }
             )
-        }
-        
-        .onChange(of: multipeerSession.connectedPeers) { _, newValue in
-            if !newValue.isEmpty {
-                router.push(to: .driverMain)
-            }
         }
     }
 }
