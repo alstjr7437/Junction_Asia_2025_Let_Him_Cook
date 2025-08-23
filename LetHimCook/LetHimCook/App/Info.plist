@@ -8,6 +8,12 @@
   </array>
   <key>NSNearbyInteractionUsageDescription</key>
   <string>상대 기기의 방향과 거리를 측정하여 화면에 표시하기 위해 사용합니다.</string>
-
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pretendard-Bold.otf</string>
+		<string>Pretendard-Medium.otf</string>
+		<string>Pretendard-Regular.otf</string>
+		<string>Pretendard-SemiBold.otf</string>
+  </array>
 </dict>
 </plist>
