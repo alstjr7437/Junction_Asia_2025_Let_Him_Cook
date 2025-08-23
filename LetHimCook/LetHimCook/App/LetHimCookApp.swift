@@ -14,7 +14,7 @@ struct LetHimCookApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $router.destinations) {
-                SignalManMainView()
+                OnboardingView()
                     .navigationDestination(for: NavigationDestination.self) { destination in
                         NavigationRoutingView(destination: destination)
                     }
