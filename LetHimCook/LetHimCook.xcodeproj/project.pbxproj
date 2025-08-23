@@ -6,26 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		EE0C14232E5984A1003640C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0C141F2E5984A1003640C0 /* Assets.xcassets */; };
-		EE0C14242E5984A1003640C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C14202E5984A1003640C0 /* ContentView.swift */; };
-		EE0C14252E5984A1003640C0 /* LetHimCookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C14212E5984A1003640C0 /* LetHimCookApp.swift */; };
-		EE0C142D2E5984F4003640C0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C142C2E5984EF003640C0 /* NetworkManager.swift */; };
-		EE0C142F2E5984FD003640C0 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C142E2E5984FA003640C0 /* Model.swift */; };
-		EE0C14332E598522003640C0 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C14322E59851F003640C0 /* Font+Extension.swift */; };
-		EE0C14352E598539003640C0 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C14342E598527003640C0 /* UIApplication+Extension.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		EE0C14102E59845D003640C0 /* LetHimCook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetHimCook.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE0C141F2E5984A1003640C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		EE0C14202E5984A1003640C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		EE0C14212E5984A1003640C0 /* LetHimCookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetHimCookApp.swift; sourceTree = "<group>"; };
-		EE0C142C2E5984EF003640C0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		EE0C142E2E5984FA003640C0 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		EE0C14322E59851F003640C0 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
-		EE0C14342E598527003640C0 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		EE0C14612E59E0ED003640C0 /* LetHimCook */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = LetHimCook;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		EE0C140D2E59845D003640C0 /* Frameworks */ = {
@@ -41,7 +32,7 @@
 		EE0C14072E59845D003640C0 = {
 			isa = PBXGroup;
 			children = (
-				EE0C14222E5984A1003640C0 /* LetHimCook */,
+				EE0C14612E59E0ED003640C0 /* LetHimCook */,
 				EE0C14112E59845D003640C0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,84 +43,6 @@
 				EE0C14102E59845D003640C0 /* LetHimCook.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		EE0C14222E5984A1003640C0 /* LetHimCook */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C14262E5984A8003640C0 /* App */,
-				EE0C142B2E5984CE003640C0 /* Network */,
-				EE0C142A2E5984CA003640C0 /* Model */,
-				EE0C14282E5984B1003640C0 /* Presentation */,
-				EE0C14272E5984AC003640C0 /* Util */,
-				EE0C14292E5984BB003640C0 /* Resources */,
-			);
-			path = LetHimCook;
-			sourceTree = "<group>";
-		};
-		EE0C14262E5984A8003640C0 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C14212E5984A1003640C0 /* LetHimCookApp.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		EE0C14272E5984AC003640C0 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C14302E598510003640C0 /* Enum */,
-				EE0C14312E598514003640C0 /* Extension */,
-			);
-			path = Util;
-			sourceTree = "<group>";
-		};
-		EE0C14282E5984B1003640C0 /* Presentation */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C14202E5984A1003640C0 /* ContentView.swift */,
-			);
-			path = Presentation;
-			sourceTree = "<group>";
-		};
-		EE0C14292E5984BB003640C0 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C141F2E5984A1003640C0 /* Assets.xcassets */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		EE0C142A2E5984CA003640C0 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C142E2E5984FA003640C0 /* Model.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		EE0C142B2E5984CE003640C0 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C142C2E5984EF003640C0 /* NetworkManager.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		EE0C14302E598510003640C0 /* Enum */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C14322E59851F003640C0 /* Font+Extension.swift */,
-			);
-			path = Enum;
-			sourceTree = "<group>";
-		};
-		EE0C14312E598514003640C0 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				EE0C14342E598527003640C0 /* UIApplication+Extension.swift */,
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,6 +59,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				EE0C14612E59E0ED003640C0 /* LetHimCook */,
 			);
 			name = LetHimCook;
 			packageProductDependencies = (
@@ -193,7 +109,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE0C14232E5984A1003640C0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,12 +119,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE0C142D2E5984F4003640C0 /* NetworkManager.swift in Sources */,
-				EE0C14332E598522003640C0 /* Font+Extension.swift in Sources */,
-				EE0C14242E5984A1003640C0 /* ContentView.swift in Sources */,
-				EE0C14252E5984A1003640C0 /* LetHimCookApp.swift in Sources */,
-				EE0C14352E598539003640C0 /* UIApplication+Extension.swift in Sources */,
-				EE0C142F2E5984FD003640C0 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
