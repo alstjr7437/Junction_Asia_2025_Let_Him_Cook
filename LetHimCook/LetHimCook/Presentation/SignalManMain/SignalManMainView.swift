@@ -20,6 +20,14 @@ struct SignalManMainView: View {
             usingAppleWatchText()
             Spacer()
             stopWorking()
+            
+            // 테스트용 버튼
+            Button("연결 재시도") {
+                sendConnectedMCP()
+            }
+            .padding()
+            .background(.orange)
+            .cornerRadius(8)
         }
         .onAppear {
             startTimer()
@@ -103,6 +111,7 @@ struct SignalManMainView: View {
     
     /// MCP 연결 완료 전송
     private func sendConnectedMCP() {
+        print("📱 SignalManMainView: sendConnectedMCP() called")
         WatchConnectivityManager.shared.sendMCPConnected(true)
     }
 }
