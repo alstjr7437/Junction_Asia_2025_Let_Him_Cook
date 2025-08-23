@@ -36,6 +36,7 @@ struct WaitConnectionView: View {
             
             Spacer()
         }
+        .environmentObject(multipeerSession)
         .navigationTitle(car.name)
         
         
@@ -46,7 +47,7 @@ struct WaitConnectionView: View {
         }
         .onChange(of: multipeerSession.connectedPeers) { _, newValue in
             if !newValue.isEmpty {
-                router.push(to: .driverMain)
+                router.push(to: .driverMain(multipeer: multipeerSession))
             }
         }
         
