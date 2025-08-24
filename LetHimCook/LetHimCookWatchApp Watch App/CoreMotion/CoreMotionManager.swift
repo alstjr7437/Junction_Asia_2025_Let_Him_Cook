@@ -23,9 +23,9 @@ final class CoreMotionManager: ObservableObject {
     private var gestureTimer: Timer?
     
     enum GestureType: String, CaseIterable {
-        case none = "stay"
-        case up = "Boom Up"
-        case down = "Boom Down"
+        case none = "none"
+        case up = "Up"
+        case down = "Down"
         case stop = "Stop"
     }
     
@@ -104,7 +104,7 @@ final class CoreMotionManager: ObservableObject {
                 if self?.currentGesture == gesture {
                     self?.currentGesture = .none
                     // none 상태도 iPhone으로 전송
-                    WatchConnectivityManager.shared.sendGesture("none")
+                    WatchConnectivityManager.shared.sendGesture(GestureType.none.rawValue)
                 }
             }
         }
@@ -118,13 +118,14 @@ final class CoreMotionManager: ObservableObject {
         if isStopSignalActive {
             // '정지' 신호가 활성화되면
             currentGesture = .stop
-            WatchConnectivityManager.shared.sendGesture("정지")
+            WatchConnectivityManager.shared.sendGesture(GestureType.stop.rawValue)
             playHapticFeedback(for: .stop)
             print("Stop signal sent!")
-        } else {
+        }
+        else {
             // '정지' 신호가 비활성화(취소)되면
             currentGesture = .none
-            WatchConnectivityManager.shared.sendGesture("none")
+            WatchConnectivityManager.shared.sendGesture(GestureType.none.rawValue)
             print("Stop signal canceled!")
         }
     }

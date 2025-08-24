@@ -14,6 +14,7 @@ struct SignalManMainView: View {
     @State private var showExitAlert = false
     
     @EnvironmentObject var router: NavigationRouter
+    @EnvironmentObject var multipeer: MultipeerSession
     
     var body: some View {
         VStack(spacing: 0) {

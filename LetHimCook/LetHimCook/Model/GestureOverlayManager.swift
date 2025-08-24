@@ -13,7 +13,7 @@ final class GestureOverlayManager: ObservableObject {
     
     @Published var currentGesture: GestureType = .none
     
-    enum GestureType: String, CaseIterable {
+    enum GestureType: String, CaseIterable, Codable {
         case none = "없음"
         case stop = "정지"
         case boomUp = "붐 올리기"

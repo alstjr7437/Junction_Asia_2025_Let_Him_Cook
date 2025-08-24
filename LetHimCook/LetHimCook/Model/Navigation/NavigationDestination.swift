@@ -19,7 +19,7 @@ enum NavigationDestination: Hashable {
     
     // 메인
     case signalManMain
-    case driverMain(multipeer: MultipeerSession)
+    case driverMain
     
     case workingEnding
 }

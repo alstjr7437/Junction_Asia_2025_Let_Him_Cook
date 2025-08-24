@@ -13,6 +13,7 @@ final class WatchConnectivityManager: NSObject, WCSessionDelegate {
     static let shared = WatchConnectivityManager()
     
     private let session: WCSession
+    private weak var multipeerSession: MultipeerSession?
     
     // 보낼 메시지가 여러 개일 경우를 대비해 단일 메시지 대신 '큐(Queue)'로 관리합니다.
     private var messageQueue: [[String: Any]] = []
@@ -22,6 +23,11 @@ final class WatchConnectivityManager: NSObject, WCSessionDelegate {
         super.init()
         session.delegate = self
         session.activate()
+    }
+    
+    func configure(with session: MultipeerSession) {
+        print("🔌 WatchConnectivityManager configured with MultipeerSession.")
+        self.multipeerSession = session
     }
     
     // 세션 활성화가 완료되면 호출됩니다.
@@ -97,19 +103,21 @@ final class WatchConnectivityManager: NSObject, WCSessionDelegate {
         let gestureType: GestureOverlayManager.GestureType
         
         switch gestureString {
-        case "정지":
+        case "Stop":
             gestureType = .stop
-        case "위로":
+        case "Up":
             gestureType = .boomUp
-        case "아래로":
+        case "Down":
             gestureType = .boomDown
         case "none":
             gestureType = .none
         default:
+            print("⚠️ Unknown gesture string received: \(gestureString)")
             return // 알 수 없는 제스처는 무시
         }
         
-        GestureOverlayManager.shared.showGesture(gestureType)
+        print("▶️ Watch gesture [\(gestureString)] received, forwarding to MultipeerSession...")
+        multipeerSession?.send(gesture: gestureType)
     }
     
     // --- iOS 전용 델리게이트 메서드 ---

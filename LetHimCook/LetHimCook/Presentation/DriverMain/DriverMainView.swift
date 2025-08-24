@@ -7,7 +7,7 @@
 
 import SwiftUI
 struct DriverMainView: View {
-    @ObservedObject var multipeer: MultipeerSession
+    @EnvironmentObject var multipeer: MultipeerSession
     
     var body: some View {
         ZStack {
@@ -252,5 +252,6 @@ private extension Double {
 }
 
 #Preview {
-    DriverMainView(multipeer: MultipeerSession(displayName: "test"))
+    DriverMainView()
+        .environmentObject(MultipeerSession(displayName: "test"))
 }

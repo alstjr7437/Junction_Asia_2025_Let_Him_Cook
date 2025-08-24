@@ -13,6 +13,7 @@ struct LetHimCookApp: App {
     
     @StateObject var router: NavigationRouter = NavigationRouter()
     @StateObject var gestureOverlay: GestureOverlayManager = GestureOverlayManager.shared
+    @StateObject var multipeerSession = MultipeerSession(displayName: UIDevice.current.name)
     
     var body: some Scene {
         WindowGroup {
@@ -23,7 +24,9 @@ struct LetHimCookApp: App {
                         .navigationDestination(for: NavigationDestination.self) { destination in
                             NavigationRoutingView(destination: destination)
                         }
-                }.environmentObject(router)
+                }
+                .environmentObject(router)
+                .environmentObject(multipeerSession)
                 
                 // 제스처 오버레이
                 if gestureOverlay.currentGesture != .none {
@@ -32,6 +35,9 @@ struct LetHimCookApp: App {
                         .animation(.easeInOut(duration: 0.3), value: gestureOverlay.currentGesture)
                         .zIndex(1000) // 최상위에 표시
                 }
+            }
+            .onAppear {
+                WatchConnectivityManager.shared.configure(with: multipeerSession)
             }
         }
     }

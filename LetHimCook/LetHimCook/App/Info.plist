@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>NSLocalNetworkUsageDescription</key>
+  <string>주변의 운전자 또는 신호수와 연결하여 통신하기 위해 로컬 네트워크 접근 권한이 필요합니다.</string>
   <key>NSBonjourServices</key>
   <array>
     <string>_lethimcook._tcp</string>

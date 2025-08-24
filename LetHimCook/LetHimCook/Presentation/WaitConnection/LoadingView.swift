@@ -11,15 +11,10 @@ struct WaitConnectionView: View {
     
     let car: Car
     
-    @StateObject var multipeerSession: MultipeerSession
+    @EnvironmentObject var multipeerSession: MultipeerSession
     @EnvironmentObject var router: NavigationRouter
     
     @State private var showAlert = false
-    
-    init(car: Car) {
-        self.car = car
-        _multipeerSession = StateObject(wrappedValue: .init(displayName: car.model))
-    }
     
     var body: some View {
         VStack(spacing: 24) {
@@ -40,8 +35,13 @@ struct WaitConnectionView: View {
                     .font(Font.h4)
             }.padding(.bottom, 70)
         }
-        .environmentObject(multipeerSession)
         .navigationTitle(car.name)
+        .onAppear {
+            multipeerSession.startAdvertising(role: .driver, carModel: "\(car.name)-\(car.model)")
+        }
+        .onDisappear {
+            multipeerSession.stopDiscovery()
+        }
         
         
         .onChange(of: multipeerSession.sendingFromPeer) { _, newValue in
@@ -51,7 +51,7 @@ struct WaitConnectionView: View {
         }
         .onChange(of: multipeerSession.connectedPeers) { _, newValue in
             if !newValue.isEmpty {
-                router.push(to: .driverMain(multipeer: multipeerSession))
+                router.push(to: .driverMain)
             }
         }
         
@@ -73,4 +73,6 @@ struct WaitConnectionView: View {
 
 #Preview {
     WaitConnectionView(car: DummyData.cars[0])
+        .environmentObject(MultipeerSession(displayName: "preview"))
+        .environmentObject(NavigationRouter())
 }

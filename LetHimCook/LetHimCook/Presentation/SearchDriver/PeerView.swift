@@ -13,6 +13,10 @@ struct PeerView: View {
     let centerEmoji = "😊"
     let centerLabel = "Me"
     
+    private var driverPeers: [Peer] {
+        peers.filter { $0.role == .driver }
+    }
+    
     @State private var peerPositions: [String: CGPoint] = [:]
     
     var body: some View {
@@ -41,12 +45,10 @@ struct PeerView: View {
                 .frame(width: 50, height: 50)
                 .position(center)
             
-            ForEach(peers.indices, id: \.self) { index in
-                let peer = peers[index]
-                
-                if let position = peerPositions[peer.displayName] {
+            ForEach(driverPeers) { peer in
+                if let position = peerPositions[peer.id] {
                     PeerCircleView(
-                        name: peer.displayName,
+                        name: peer.carModel ?? "차량 정보 없음",
                         onTap: {
                             inviteAction(peer)
                         }
@@ -55,8 +57,17 @@ struct PeerView: View {
                 }
             }
         }
+        .onAppear {
+            for peer in driverPeers where peerPositions[peer.id] == nil {
+                if !fixedPositions.isEmpty {
+                    peerPositions[peer.id] = fixedPositions.removeFirst()
+                } else {
+                    peerPositions[peer.id] = center
+                }
+            }
+        }
         .onChange(of: peers) { _, newPeers in
-            for peer in newPeers where peerPositions[peer.id] == nil {
+            for peer in newPeers.filter({ $0.role == .driver }) where peerPositions[peer.id] == nil {
                 if !fixedPositions.isEmpty {
                     peerPositions[peer.id] = fixedPositions.removeFirst()
                 } else {
