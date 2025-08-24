@@ -29,6 +29,7 @@ struct SignalWorkEndingView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
     }
     
     private func endWorkTitle() -> some View {
