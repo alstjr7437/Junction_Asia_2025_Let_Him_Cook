@@ -17,7 +17,7 @@
 | :---: | :---: | :---: | :---: |
 | **길지훈** | **김민석** | **장준하** | **윤하정** |
 | **iOS Developer** | **iOS Developer** | **PM / Data** | **UI/UX Design** |
-| [@giljihun](https://github.com/giljihun) | [@alstjr7437](https://github.com/alstjr7437) | [@junhajk](https://github.com/junhajk) | [@y0_0n_.hx](https://www.instagram.com/y0_0n_.hx/) |
+| [@giljihun](https://github.com/giljihun) | [@alstjr7437](https://github.com/alstjr7437) | [@junhajk](https://github.com/junhajk) | [@y0_0n_.hx](https://www.behance.net/yhj17bb5265) |
 
 ## Signal Man
 <img width="200" alt="1024" src="https://github.com/user-attachments/assets/035f4d64-aca5-4780-b695-a2347e1852eb" />
